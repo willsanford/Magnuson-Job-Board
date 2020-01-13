@@ -1,0 +1,48 @@
+{% extends "board/base.html" %}
+{% block content %}
+    
+    <!-- Jumbotron start-->
+
+    {% if include_jumbo is True%}
+
+    <div class="jumbotron">
+      <h1 class="display-4">Home</h1>
+      <p class="lead">Welcome to the Magnuson Job Board</p>
+    </div>
+
+    {% endif%}
+    <!-- Jumbotron end-->
+    
+    
+    <!-- Search Bar start-->
+    <form class="form-inline" id='job_search_form' method='GET' action={% url 'board-search' %}>
+      <div class="form-group mx-sm-3 mb-2">
+        <select class="browser-default custom-select">
+          <option selected>Job Category</option>
+          <option value="1">Full-Time</option>
+          <option value="2">Part-Time</option>
+          <option value="3">Internship</option>
+        </select>
+      </div>
+
+      <!-- TODO : We are gonna want to add autofill to a list of cities here.-->
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputLocation" class="sr-only">Location</label>
+        <input type="text" class="form-control" name='q_location' id="inputLocation" placeholder="Location">
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputKeywords" class="sr-only">Password</label>
+        <input type="text" class="form-control" name='q_keyword' id="inputKeyword" placeholder="Keywords">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+      </div>
+    </form>
+
+    <!-- Search Bar end-->
+
+    
+
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% extends "board/base.html" %}
+{% block content %}
+    
+    <!-- Jumbotron start-->
+
+    {% if include_jumbo is True%}
+
+    <div class="jumbotron">
+      <h1 class="display-4">Job Search</h1>
+      <p class="lead">Use the below search engine to find your dream job brought to you by the Magnuson Center!</p>
+    </div>
+
+    {% endif%}
+    <!-- Jumbotron end-->
+    
+    
+    <!-- Search Bar start-->
+    <div class="container">
+    <div class="row rounded" style='background-color: #00693e; height: 90px'>
+    <form class="form-inline" id='job_search_form' method='GET' action={% url 'board-search'%}>
+      <div class="form-group mx-sm-3 mb-2">
+        <select class="browser-default custom-select">
+          <option selected>Job Category</option>
+          <option value="1">Full-Time</option>
+          <option value="2">Part-Time</option>
+          <option value="3">Internship</option>
+        </select>
+      </div>
+
+      <!-- TODO : We are gonna want to add autofill to a list of cities here.-->
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputLocation" class="sr-only">Location</label>
+        <input type="text" class="form-control" name='q_location' id="inputLocation" placeholder="Location">
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputKeywords" class="sr-only">Keyword</label>
+        <input type="text" class="form-control" name='q_keyword' id="inputKeyword" placeholder="Keywords" required>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+      </div>
+    </form>
+    </div>
+    </div>
+
+    <!-- Search Bar end-->
+
+    
+
+    <!-- Job Section start--> 
+    <div class="container">
+    <br>
+    {% if search_keyword != None %}
+      <h3 align="center">Showing {{ num_results }} results for "{{ search_keyword }}" {% if search_location != "" %} in "{{ search_location }}"{% endif %}</h3>
+      <br>
+    {% endif %}
+    
+
+    <!-- Main Job Loop-->
+    {% for job in jobs|slice:":10" %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ job.company }}</a>
+              <small class="text-muted">Application Due: {{ job.date_due }}</small>
+              <small class="text-muted"> | Location: {{ job.location }}</small>
+              
+            </div>
+            <h2><a class="article-title" href="#">{{ job.title }}</a></h2>
+            <p class="article-content">{{ job.content|truncatewords:'100' }}</p>
+
+            <div class="d-fled justify-content-center">
+              <a role="button" href={{job.link}} class="btn btn-primary">Apply</a>
+              <button type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+    </div>
+    <!-- Job Section end-->
+{% endblock content %}

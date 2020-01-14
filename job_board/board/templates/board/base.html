@@ -29,13 +29,23 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'board-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'board-search' %}">Search</a>
               <a class="nav-item nav-link" href="{% url 'board-about' %}">About</a>
+
             </div>
             <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              <a class="nav-item nav-link" href="#">Login</a>
-              <a class="nav-item nav-link" href="#">Register</a>
-            </div>
+            <!-- We either want log in and register for unatuthenicted users, or logout for authenticated users-->
+            {% if user.is_authenticated %}
+              <div class="navbar-nav">
+                <a class="nav-item nav-link" href={% url 'logout' %}>Logout</a>
+              </div>
+            {% else %}
+              <div class="navbar-nav">
+                <a class="nav-item nav-link" href={% url 'login' %}>Login</a>
+                <a class="nav-item nav-link" href={% url 'register' %}>Register</a>
+              </div>
+            {% endif %}
+
           </div>
         </div>
       </nav>
@@ -43,21 +53,32 @@
     <main role="main" class="container">
       <div class="row">
         <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor%}
+          {% endif %}
           {% block content %}{% endblock %}
         </div>
+
+        {% if user.is_authenticated %}
         <div class="col-md-4">
           <div class="content-section">
             <h3>Sidebar</h3>
             <p class='text-muted'>Information about the sidebar.
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Link 1</li>
-                <li class="list-group-item list-group-item-light">Link 2</li>
+                <li class="list-group-item list-group-item-light"><a href="#">View Profile</a></li>
+                <li class="list-group-item list-group-item-light"><a href="#">View Saved Jobs</a></li>
                 <li class="list-group-item list-group-item-light">Link 3</li>
-                <li class="list-group-item list-group-item-light">Link 4</li>
+                <li class="list-group-item list-group-item-light"><a href="#">Magnuson News and Updates</a></li>
               </ul>
             </p>
           </div>
         </div>
+        {% endif %}
+
       </div>
     </main>
     <a href="javascript:(function(){var h,a,f;a=document.getElementsByTagName('link');for(h=0;h<a.length;h++){f=a[h];if(f.rel.toLowerCase().match(/stylesheet/)&amp;&amp;f.href){var g=f.href.replace(/(&amp;|%5C?)forceReload=\d+/,'');f.href=g+(g.match(/\?/)?'&amp;':'?')+'forceReload='+(new Date().valueOf())}}})()" class="btn btn-lg btn-primary-outline">Reload CSS</a>

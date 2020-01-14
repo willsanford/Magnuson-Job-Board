@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class Company(models.Model):
     title = models.CharField(max_length=100)
     id = models.AutoField(primary_key=True)
@@ -21,3 +22,4 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title + " - " + self.company.__str__()
+

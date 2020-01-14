@@ -61,7 +61,7 @@ def create_job_list(search_term, search_location):
     
     # we can create a list of keywords to loop our query over
 
-    # TODO : if you query " " this crashes. Fix this
+    # TODO : if you query " " this crashes. Fix this. Just need something to start the OR chaining
     q_list = search_term.split()
 
     q_filter_key = query_gen(q_list[0])

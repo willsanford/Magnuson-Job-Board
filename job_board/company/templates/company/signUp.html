@@ -1,0 +1,27 @@
+{% extends "company/base.html" %}
+{% block content %}
+    <h1>Sign Up</h1>
+    
+
+    <!-- Start the signup form here-->
+    <form method="POST" action=''>
+        <div class="form-group">
+            <label for="name">Compnay Name</label>
+            <input type="text" class="form-control" id="name"  placeholder="Company Name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="passwrod" placeholder="Password" required>
+        </div>
+
+        <div class='form-group'>
+            <label for='description'>Description</label>
+            <textarea class="form-control" id="description" placeholder="Add a breif description of your company here" rows="4"></textarea>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
+{% endblock content %}

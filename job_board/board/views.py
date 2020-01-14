@@ -14,8 +14,6 @@ def home(request):
         return render(request, 'board/home.html')
 
     
-
-
 def search(request):
 
 

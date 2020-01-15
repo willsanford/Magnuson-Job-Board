@@ -9,15 +9,15 @@
 ## TODO list:
 
 ### Company Portal:
+- [x] Add company registration view and backened 
+- [ ] Find a nice and simple hash function to save the password hashes instead of plain text
+- [ ] Add a job entry section that has all the required fields and validates correctly
 
-- [ ] Edit backend so that sign up requests add to the Company table
-- [ ] Add a job entry section that has all the required fields and once it is entered with the 
-- [ ] Decide which hash function to use to store encrypted passwords
 
 ### Data Base Management:
 
-- [ ] Add all required fields to the Company and Job tables and remigrate
-- [ ] Add applied jobs to the Profile model
+- [x] Add all required fields to the Company and Job tables and remigrate
+- [x] Add applied jobs to the Profile model
 
 ### User View:
 

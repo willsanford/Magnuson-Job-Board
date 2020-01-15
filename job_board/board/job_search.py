@@ -2,7 +2,7 @@
 # in the future we can add parameters to the create jobs list function that cn curate the search
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
-from .models import Job, Company
+from company.models import Job, Company
 
 #creates a dummy company/job
 def create_dummy():

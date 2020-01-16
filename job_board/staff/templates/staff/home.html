@@ -1,0 +1,15 @@
+{% extends "board/base.html" %}
+{% block content %}
+    <!-- Jumbotron start-->
+    <div class="jumbotron">
+      <h1 class="display-4">Staff Portal</h1>
+      <p class="lead">Hello and welcome to the Magnuson Job Board Staff Portal. Use the Below
+                        links to add jobs, add companies or get information about managin the magnuson database.
+    </div>
+    <!-- Jumbotron end-->
+    <div class="container" align='center'>  
+        <a class='btn btn-primary' href={% url 'staff-add-company' %} role='button'>Add a Company</a>
+        <a class='btn btn-primary' href={% url 'staff-add-job' %} role='button'>Add a Job</a>
+        <a class='btn btn-primary' href="#" role='button'>Get Info</a>
+    </div>
+{% endblock content %}

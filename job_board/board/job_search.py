@@ -2,9 +2,9 @@
 # in the future we can add parameters to the create jobs list function that cn curate the search
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
-from company.models import Job, Company
+from staff.models import Job, Company
 
-#creates a dummy company/job
+#creates a dummy company/job. CHANGE THIS
 def create_dummy():
     
     company1 = Company(
@@ -45,19 +45,22 @@ def create_dummy():
 
 #simple helper method to generate Q objects
 def query_gen(term):
-    return Q(title__icontains=term) | Q(content__icontains=term)
+    return (Q(title__icontains=term) | 
+            Q(key_qualifications__icontains=term) |
+            Q(additional_comments__icontains=term) )
+
 
 
 # Initial job creating function
 def create_job_list(search_term, search_location):
 
-    if search_term == None:
+    if search_term == None or search_term == '' or search_term =='None':
         return Job.objects.all()
     
     if search_location == None:
-        q_filter_loc = Q(location__icontains="")
+        q_filter_loc = Q(job_location__icontains="")
     else:
-        q_filter_loc = Q(location__icontains=search_location)
+        q_filter_loc = Q(job_location__icontains=search_location)
     
     # we can create a list of keywords to loop our query over
 
@@ -71,16 +74,3 @@ def create_job_list(search_term, search_location):
 
     # we can then filter through the AND of the location and keyword query objects
     return Job.objects.filter( q_filter_key & q_filter_loc )
-
-
-
-
-    # if search_term == None:
-    #     job_list = Job.objects.all()
-    # else:
-    #     job_list = Job.objects.filter(
-    #         Q(title__icontains=search_term) | 
-    #         Q(content__icontains=search_term)
-    #     )
-    # return job_list
-    

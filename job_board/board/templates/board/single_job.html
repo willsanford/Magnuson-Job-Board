@@ -1,0 +1,52 @@
+{% extends "board/base.html" %}
+{% block content %}
+<div class='container'>
+
+    <h1 align='center'>{{ job.title }}</h1>
+    <hr>
+
+    <h2>Basic Information</h2>
+    <div class="card">
+        <div class="card-body">
+            <p>Offered by: <a href={% url 'board-single-company' id=job.company.id %}>{{job.company}}</a></p>
+            <p>Application Due by: {{ job.date_due }}</p>
+            <p>Hire Type: {% if job.hire_type == 'I' %} Intern
+                          {% elif job.hire_type == 'F' %} Full-Time
+                          {% else %} Part-Time
+                          {% endif %} </p>
+            <p>Job Location: {{ job.job_location }} </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Key Qualifications</h2>
+    <div class='card'>
+        <div class='card-body'>
+            <p>{{ job.key_qualifications }}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Additional Information</h2>
+    <div class='card'>
+        <div class='card-body'>
+            <p>{{ job.additional_comments }}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Other Information</h2>
+    <div class='card'>
+        <div class='card-body'> 
+            <p>Contact Info: {{ job.contact_info }}</p> 
+            <p>Application Link: <a href={{ job.application_link}}> {{ job.application_link }} </a></p>
+        </div>
+    </div>
+       
+
+
+</div>
+{% endblock content %}

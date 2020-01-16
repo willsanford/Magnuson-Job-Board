@@ -1,0 +1,20 @@
+{% extends "board/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Add a job to our listing below</legend>
+                {{ form|crispy }}
+            </fieldset>
+
+            <div class="form-group">
+                <button class="btn btn-info" type="submit">Submit</button>
+
+                <p class='border-top mt-2'>Is the company not in the database? Add it <a href={% url 'staff-add-company' %}>here</a></p>
+                <p>Astrixes (*) designate required fields</p>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

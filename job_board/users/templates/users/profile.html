@@ -1,0 +1,35 @@
+{% extends "board/base.html" %}
+{% block content %}
+    <h1>{{ name }}</h1>
+    <hr>
+    <h2>Saved Jobs</h2>
+    <!-- Main Job Loop-->
+    <!-- We currently only have the first ten hard coded. Add pagation-->
+    <div class='container'>
+    {% for job in jobs|slice:":10" %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href={% url 'board-single-company' id=job.company.id %}>{{ job.company }}</a>
+              <small class="text-muted">Application Due: {{ job.date_due }}</small>
+              <small class="text-muted"> | Location: {{ job.job_location }}</small>
+              
+            </div>
+            <h2><a class="article-title" href={% url 'board-single-job' id=job.id %}>{{ job.title }}</a></h2>
+            <p class="article-content">{{ job.key_qualifications|truncatewords:'100' }}</p>
+            <p class="article-content">{{ job.additional_comments|truncatewords:'100' }}</p>
+            <div class="d-flex justify-content-around">
+              <a role="button" href={{job.application_link}} class="btn btn-primary">Apply</a>
+
+              <!-- Mini form to handle saving and unsaving jobs -->
+              <form action="#" method='GET'>
+                <input type='hidden' type='number' value={{ job.id }} name='job_id'></input>
+                <button type="submit" class="btn btn-outline-primary"  value='unsave' name='save_button'>Unsave</button>
+              </form>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+    </div>
+    <!-- Job Section end-->
+{% endblock content %}

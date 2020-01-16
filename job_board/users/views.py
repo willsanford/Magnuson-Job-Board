@@ -4,6 +4,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 from django.contrib import messages
 
+
+from django.contrib.auth.models import User
+from .models import Profile
+from staff.models import Job,Company
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -58,3 +63,22 @@ def logout_request(request):
     logout(request)
 
     return redirect('login')
+
+def profile(request, username):
+    user = User.objects.filter(username=username).first()
+    #deals with the action of users saving jobs
+    save_button = request.GET.get('save_button')
+    if save_button:
+        #We can add or remove this job to the saved list of the viewer
+        job_id = request.GET.get('job_id')
+        job = Job.objects.filter(id=job_id).first()
+        user.profile.savedJobs.remove(job)
+
+
+    
+    context = {
+        'name' : username,
+        'jobs' : user.profile.savedJobs.all()
+    }
+
+    return render(request, 'users/profile.html', context)

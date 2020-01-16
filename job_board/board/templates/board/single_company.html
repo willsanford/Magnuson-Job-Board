@@ -1,0 +1,39 @@
+{% extends "board/base.html" %}
+{% block content %}
+<div class='container'>
+
+    <h1 align='center'>{{ company.title }}</h1>
+    <hr>
+
+    <h2>Description</h2>
+    <div class="card">
+        <div class="card-body">
+            <p>{{ company.description}} </p>
+        </div>
+    </div>
+    <hr>
+
+    <h2>Available Jobs</h2>
+
+    <!-- TEMP make this better in search and then copy back-->
+    {% for job in jobs|slice:":10" %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">Application Due: {{ job.date_due }}</small>
+              <small class="text-muted"> | Location: {{ job.job_location }}</small>
+              
+            </div>
+            <h2><a class="article-title" href={% url 'board-single-job' id=job.id %}>{{ job.title }}</a></h2>
+            <p class="article-content">{{ job.key_qualifications|truncatewords:'100' }}</p>
+            <p class="article-content">{{ job.additional_comments|truncatewords:'100' }}</p>
+            <div class="d-fled justify-content-center">
+              <a role="button" href={{job.application_link}} class="btn btn-primary">Apply</a>
+              <button type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+
+</div>
+{% endblock content %}

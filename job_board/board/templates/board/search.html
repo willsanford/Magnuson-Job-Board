@@ -17,13 +17,13 @@
     <!-- Search Bar start-->
     <div class="container">
     <div class="row rounded" style='background-color: #00693e; height: 90px'>
-    <form class="form-inline" id='job_search_form' method='GET' action={% url 'board-search'%}>
+    <form class="form-inline" id='job_search_form' method='GET' action={% url 'board-search' %}>
       <div class="form-group mx-sm-3 mb-2">
         <select class="browser-default custom-select">
           <option selected>Job Category</option>
-          <option value="1">Full-Time</option>
-          <option value="2">Part-Time</option>
-          <option value="3">Internship</option>
+          <option value="F">Full-Time</option>
+          <option value="P">Part-Time</option>
+          <option value="I">Internship</option>
         </select>
       </div>
 
@@ -59,21 +59,34 @@
     
 
     <!-- Main Job Loop-->
+    <!-- We currently only have the first ten hard coded. Add pagation-->
     {% for job in jobs|slice:":10" %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ job.company }}</a>
+              <a class="mr-2" href={% url 'board-single-company' id=job.company.id %}>{{ job.company }}</a>
               <small class="text-muted">Application Due: {{ job.date_due }}</small>
-              <small class="text-muted"> | Location: {{ job.location }}</small>
+              <small class="text-muted"> | Location: {{ job.job_location }}</small>
               
             </div>
-            <h2><a class="article-title" href="#">{{ job.title }}</a></h2>
-            <p class="article-content">{{ job.content|truncatewords:'100' }}</p>
+            <h2><a class="article-title" href={% url 'board-single-job' id=job.id %}>{{ job.title }}</a></h2>
+            <p class="article-content">{{ job.key_qualifications|truncatewords:'100' }}</p>
+            <p class="article-content">{{ job.additional_comments|truncatewords:'100' }}</p>
+            <div class="d-flex justify-content-around">
+              <a role="button" href={{job.application_link}} class="btn btn-primary">Apply</a>
 
-            <div class="d-fled justify-content-center">
-              <a role="button" href={{job.link}} class="btn btn-primary">Apply</a>
-              <button type="button" class="btn btn-primary">Save</button>
+              <!-- Mini form to handle saving and unsaving jobs -->
+              <!-- We send back the same keywords and locations-->
+              <form action={% url 'board-search' %} method='GET'>
+                <input type='hidden' type='number' value={{ job.id }} name='job_id'></input>
+                <input type='hidden' name='q_keyword' value={{ search_keyword }}></input>
+                <input type='hidden' name='q_location' value={{ search_locatin }}></input>
+                {% if job not in saved_jobs %}
+                  <button type="submit" class="btn btn-primary" value="save" name='save_button'>Save</button>
+                {% else %}
+                  <button type="submit" class="btn btn-outline-primary" value="unsave" name='save_button'>Unsave</button>
+                {% endif %}
+              </form>
             </div>
           </div>
         </article>

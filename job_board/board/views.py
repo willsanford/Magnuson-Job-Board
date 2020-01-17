@@ -4,13 +4,15 @@ from staff.models import Job, Company
 from django.contrib import messages
 from django.contrib.auth.models import User  
 from users.models import Profile  
+from .check_perm import check_permissions
+from django.contrib.auth.decorators import login_required
 
-# This is a dud at this point doesnt really do anything that I want it to. This was a prototype of search before we made search a thing
-# TODO : totally change this up
+
+@login_required(redirect_field_name='login', login_url='/login/')
 def home(request):
         return render(request, 'board/home.html')
 
-    
+@login_required(redirect_field_name='login', login_url='/login/')
 def search(request):
 
     #deals with the action of users saving jobs
@@ -49,11 +51,11 @@ def search(request):
     return render(request, "board/search.html", context)
 
 
-
+@login_required(redirect_field_name='login', login_url='/login/')
 def about(request):
     return render(request, "board/about.html")
 
-
+@login_required(redirect_field_name='login', login_url='/login/')
 def single_job(request, id):
     job = Job.objects.filter(id=id)
     if job.exists():
@@ -68,7 +70,7 @@ def single_job(request, id):
         'ID' : id
     }
     
-
+@login_required(redirect_field_name='login', login_url='/login/')
 def single_company(request, id):
     company = Company.objects.filter(id=id)
     if company.exists():

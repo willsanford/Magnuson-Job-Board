@@ -2,11 +2,19 @@ from django.shortcuts import render, redirect
 from .forms import CompanyCreationForm, JobCreationForm
 from django.contrib import messages
 from .models import Job, Company
+from django.contrib.auth.decorators import user_passes_test
 
-# Create your views here.
+
+# This function is used in all staff views to check if the the user has the required staff permissions
+def staff_perm(user):
+    return user.groups.filter(name = 'admin' ).exists()
+
+
+@user_passes_test(staff_perm, login_url='board-home')
 def home(request):
     return render(request, 'staff/home.html')
 
+@user_passes_test(staff_perm, login_url='board-home')
 def addCompany(request):
 
     if request.method == 'POST':
@@ -25,6 +33,7 @@ def addCompany(request):
         }
         return render(request, 'staff/addCompany.html', context)
 
+@user_passes_test(staff_perm, login_url='board-home')
 def addJob(request):
 
     if request.method == 'POST':
@@ -48,6 +57,7 @@ def addCompanyData(form):
     c = Company(title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'])
     c.save()
+
 def addJobData(form):
     j = Job(title=form.cleaned_data['title'],
             company=form.cleaned_data['company'],
@@ -60,5 +70,8 @@ def addJobData(form):
             application_link=form.cleaned_data['application_link'],)
 
     j.save()
+
+
+
 
 

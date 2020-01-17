@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 
 from django.contrib.auth.models import User
@@ -59,11 +61,13 @@ def login_request(request):
         return render(request, 'users/login.html', context)
 
 
+@login_required(redirect_field_name='login', login_url='/login/')
 def logout_request(request):
     logout(request)
 
     return redirect('login')
 
+@login_required(redirect_field_name='login', login_url='/login/')
 def profile(request, username):
     user = User.objects.filter(username=username).first()
     #deals with the action of users saving jobs

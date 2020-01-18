@@ -1,4 +1,5 @@
 {% load static %}
+{% load auth_extras %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,11 @@
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'board-home' %}">Home</a>
               <a class="nav-item nav-link" href="{% url 'board-search' %}">Search</a>
+              
+              {% if request.user|has_group:"admins" %} 
               <a class="nav-item nav-link" href="{% url 'staff-home' %}">Staff Portal</a>
+              {% endif %}
+              
               <a class="nav-item nav-link" href="{% url 'board-about' %}">About</a>
 
             </div>

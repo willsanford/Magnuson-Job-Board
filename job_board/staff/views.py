@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 # This function is used in all staff views to check if the the user has the required staff permissions
 def staff_perm(user):
-    return user.groups.filter(name = 'admin' ).exists()
+    return user.groups.filter(name = 'admins' ).exists()
 
 
 @user_passes_test(staff_perm, login_url='board-home')

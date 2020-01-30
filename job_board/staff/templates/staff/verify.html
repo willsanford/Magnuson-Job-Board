@@ -1,0 +1,10 @@
+{% extends "board/base.html" %}
+{% block content %}
+    <!-- Jumbotron start-->
+    <div class="jumbotron">
+      <h1 class="display-4">Please verify your account</h1>
+      <p class="lead">An email should have been sent to the email associated with this account at {{ user.email}}. We can resend if you would like. Click below</p>
+    </div>
+    <!-- Jumbotron end-->
+    
+{% endblock content %}

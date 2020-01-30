@@ -5,13 +5,19 @@ from django.contrib import messages
 from django.contrib.auth.models import User  
 from users.models import Profile  
 from .check_perm import check_permissions
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+# test to see if the user is verified. If they are not they are redirected to a verification page
+def verified(user):
+    return user.groups.filter(name = 'verified' ).exists()
+
 
 
 @login_required(redirect_field_name='login', login_url='/login/')
 def home(request):
         return render(request, 'board/home.html')
 
+@user_passes_test(verified, login_url='staff-verified')
 @login_required(redirect_field_name='login', login_url='/login/')
 def search(request):
 
@@ -50,11 +56,13 @@ def search(request):
     }
     return render(request, "board/search.html", context)
 
-
+@user_passes_test(verified, login_url='staff-verified')
 @login_required(redirect_field_name='login', login_url='/login/')
 def about(request):
     return render(request, "board/about.html")
 
+
+@user_passes_test(verified, login_url='staff-verified')
 @login_required(redirect_field_name='login', login_url='/login/')
 def single_job(request, id):
     job = Job.objects.filter(id=id)
@@ -70,6 +78,7 @@ def single_job(request, id):
         'ID' : id
     }
     
+@user_passes_test(verified, login_url='staff-verified')
 @login_required(redirect_field_name='login', login_url='/login/')
 def single_company(request, id):
     company = Company.objects.filter(id=id)

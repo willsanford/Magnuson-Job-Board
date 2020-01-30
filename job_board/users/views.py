@@ -4,7 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
 
 
 from django.contrib.auth.models import User
@@ -15,19 +16,36 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
 
-        if form.is_valid():
+        if form.is_valid(): 
             form.save()
+
+            user = User.objects.filter(username=form.cleaned_data['username']).first()
+            if user is not None:
+                login(request,user)
+
+            # the password hash will be convrted into a valid url for continuity
+            sent = send_mail(
+                    'Subject here',
+                    'Please log in usign the below link. Thank you! \n\n ' + 'http://localhost:8000/' + 'staff/verifyAccount/'  + str(user.id),
+                    form.cleaned_data['email'],
+                    [form.cleaned_data['email']],
+                    fail_silently=False,
+                )
+            if sent == 1:
+                messages.success(request, " A vlidation email was sent to your email. Please use the link in this email to validate your account")
+            else:
+                messages.warning(request, "Oops! For some reason the email you entered could be used. Please contact a staff member")
+
             messages.success(request, "Created successfully!!")
             return redirect('board-home')
         else:
-            messages.warning(request, "invalid form")
+            messages.warning(request, "This seems to be an invalid form. Please try again")
             return redirect('register')
     else :
         form = UserRegisterForm()
         context = {
             "form" : form
         }
-
         return render(request, 'users/register.html', context)
 
 

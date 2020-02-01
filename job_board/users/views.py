@@ -26,7 +26,7 @@ def register(request):
             # the password hash will be convrted into a valid url for continuity
             sent = send_mail(
                     'Subject here',
-                    'Please log in usign the below link. Thank you! \n\n ' + 'http://localhost:8000/' + 'staff/verifyAccount/'  + str(user.id),
+                    'Please log in usign the below link. Thank you! \n\n ' + 'http://localhost:8000/' + 'users/verifyAccount/'  + str(user.id),
                     form.cleaned_data['email'],
                     [form.cleaned_data['email']],
                     fail_silently=False,
@@ -104,3 +104,15 @@ def profile(request, username):
     }
 
     return render(request, 'users/profile.html', context)
+
+# checks the slug from the email againt the this users hashed password 
+def verifyAccount(request, id):
+    user = User.objects.filter(id=id).first()
+    if user is not None:
+        verified_users = Group.objects.get(name='verified') 
+        verified_users.user_set.add(user)
+        messages.success(request, "Congrats! Your account has been verified. Please enjoy!")
+        return redirect('board-home')
+    
+    messages.warning(request, "There was an issue verifing your account. Please try again. If this does not work, try contacting a staff member at the Magnuson Center")
+    return redirect('staff-verified')

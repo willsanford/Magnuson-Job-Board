@@ -6,5 +6,4 @@ urlpatterns = [
     path('addCompany/', views.addCompany, name='staff-add-company'),
     path('addJob/', views.addJob, name='staff-add-job'),
     path('verify/', views.verify, name='staff-verified'),
-    path('verifyAccount/<int:id>', views.verifyAccount, name='staff-verify-account'),
 ]   

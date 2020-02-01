@@ -76,17 +76,6 @@ def addJobData(form):
 
     j.save()
 
-# checks the slug from the email againt the this users hashed password 
-def verifyAccount(request, id):
-    user = User.objects.filter(id=id).first()
-    if user is not None:
-        verified_users = Group.objects.get(name='verified') 
-        verified_users.user_set.add(user)
-        messages.success(request, "Congrats! Your account has been verified. Please enjoy!")
-        return redirect('board-home')
-    
-    messages.warning(request, "There was an issue verifing your account. Please try again. If this does not work, try contacting a staff member at the Magnuson Center")
-    return redirect('staff-verified')
 
 
 

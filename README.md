@@ -12,4 +12,5 @@
 - [ ] clean up the base styling so it looks a little nicer (Joe? Im not good at this)
 - [ ] Add some basic logging for profile creation/ job or company creation
 - [ ] Look for smaller bugs that we can get rid of and then try to move code to production on a random domain (buy something)
+- [ ] Add links to further pages and extend content
 - [ ] populate the TODO list (more)
